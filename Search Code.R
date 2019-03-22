@@ -90,3 +90,25 @@ search_data %>%
   scale_x_continuous(breaks = c(0,12,24))+
   theme_minimal()+
   labs(title="Volumn of Google Searches Per Weekday/Hour")
+
+# Perpare corpus for wordcloud and load library 
+library(tm)
+library(wordcloud)
+text <- Corpus(VectorSource(search_data$search))
+
+# Clean text: Remove numbers, English common stopwords, puncutations, etc
+text <- tm_map(text, tolower)
+text <- tm_map(text, removeNumbers)
+text <- tm_map(text, removeWords, stopwords("english"))
+text <- tm_map(text, removeWords, c("the", "and")) 
+text <- tm_map(text, removePunctuation)
+
+# Turn it into a term document matrix
+tdm <- TermDocumentMatrix(text) 
+
+# Create wordcloud
+m <- as.matrix(tdm)  
+freq <- sort(rowSums(m), decreasing = TRUE)
+wordcloud(words = names(freq), freq = freq, min.freq = 4, random.order = FALSE, 
+          col=terrain.colors(8), scale=c(8,.2), max.words=100, rot.per=.15)
+
