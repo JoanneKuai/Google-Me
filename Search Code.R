@@ -1,8 +1,8 @@
-# download Google search data from https://takeout.google.com/settings/takeout
-# find My Activity.html file under Takeout/My Activity/search 
+# Download Google search data from https://takeout.google.com/settings/takeout
+# Find My Activity.html file under Takeout/My Activity/search 
 doc <- "My Activity.html"
 
-# load libraries for initial analysis 
+# Load libraries for initial analysis 
 library(tidyverse)
 library(tidytext)
 library(lubridate)
@@ -46,10 +46,10 @@ search_data <- na.omit(search_data)
 head(search_data)
 
 
-#plotting search history data
+# Plotting search history data
 library(ggplot2)
 
-# generating line chart of searches per year 
+# Generating line chart of searches per year 
 search_data %>%
   group_by(year) %>%
   summarise(count = n()) %>%
@@ -59,7 +59,7 @@ search_data %>%
   labs(title="Volumn of Google Searches Per Year")+
   theme_minimal()
 
-#generating bar chart of searches per month, sorted by year 
+# Generating bar chart of searches per month, sorted by year 
 search_data %>%
   ggplot()+
   geom_bar(aes(x=month))+
@@ -68,21 +68,21 @@ search_data %>%
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 3))+
   labs(title="Volumn of Google Searches Per Month")
 
-#generating bar chart of searches by hour
+# Generating bar chart of searches by hour
 search_data %>%
   ggplot()+
   geom_bar(aes(x=hour))+
   theme_minimal()+
   labs(title="Volumn of Google Searches By Hour")
 
-#generating bar chart of searches per weekday
+# Generating bar chart of searches per weekday
 search_data %>%
   ggplot()+
   geom_bar(aes(x=day))+
   theme_minimal()+
   labs(title="Volumn of Google Searches Per Weekday")
 
-#generating bar chart of searches per weekdays by hours
+# Generating bar chart of searches per weekdays by hours
 search_data %>%
   ggplot()+
   geom_bar(aes(x=hour))+
